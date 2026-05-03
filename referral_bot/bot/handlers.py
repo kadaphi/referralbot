@@ -91,25 +91,24 @@ async def show_welcome_screen(bot, user):
     image_file_id = get_setting("welcome_image_file_id")
 
     keyboard = InlineKeyboardMarkup([
-        [InlineKeyboardButton("🧡 Join Our Channel 💚", url=folder_link)],
+        [InlineKeyboardButton(" Join Our Channel ", url=folder_link)],
         [InlineKeyboardButton("✅ Proceed", callback_data="onboard_proceed")],
     ])
 
     try:
+       greeting = f"👮 <b>Hello Dear</b> {user.full_name}!\n\n{welcome_text}"
         if image_file_id:
             await bot.send_photo(
                 user.id,
                 photo=image_file_id,
-                caption=f"👮 <b>Hello Dear</b> {user.full_name}!\n\n"
-                        "Kindly join our Channel to Access the Bot",
+                caption=greeting,
                 parse_mode=ParseMode.HTML,
                 reply_markup=keyboard,
             )
         else:
             await bot.send_message(
                 user.id,
-                f"👮 <b>Hello Dear</b> {user.full_name}!\n\n"
-                "Kindly join our Channel to Access the Bot",
+                greeting,
                 parse_mode=ParseMode.HTML,
                 reply_markup=keyboard,
             )
