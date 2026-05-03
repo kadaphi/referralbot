@@ -23,7 +23,7 @@ from bot.handlers import (
     start_command, onboard_proceed, check_verified_callback,
     menu_callback, user_message_handler, ad_attach_callback,
 )
-from bot.admin import admin_command, admin_callback, admin_message_handler, is_admin
+from bot.admin import admin_command, admin_callback, admin_message_handler, is_admin, cancel_command
 from bot.scheduler import setup_scheduler
 from bot.channel_guard import chat_member_update_handler, check_rejoin_callback
 
@@ -71,6 +71,7 @@ def main():
     # --- Command handlers ---
     app.add_handler(CommandHandler("start", start_command))
     app.add_handler(CommandHandler("admin", admin_command))
+    app.add_handler(CommandHandler("cancel", cancel_command))
 
     # --- Callback query handlers ---
     app.add_handler(CallbackQueryHandler(onboard_proceed, pattern="^onboard_proceed$"))
