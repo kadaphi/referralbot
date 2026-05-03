@@ -449,7 +449,6 @@ async def _do_broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE, quer
         parse_mode=ParseMode.HTML,
     )
 
-
 async def notify_admin_new_user(bot, user_data: dict):
     """Send new user notification to admin."""
     tg_id = user_data.get("telegram_id")
@@ -467,3 +466,17 @@ async def notify_admin_new_user(bot, user_data: dict):
         await bot.send_message(ADMIN_ID, text, parse_mode=ParseMode.HTML)
     except Exception as e:
         print(f"Failed to notify admin: {e}")
+async def cancel_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user = update.effective_user
+    if not is_admin(user.id):
+        return
+    context.user_data.clear()
+    try:
+        await update.message.delete()
+    except Exception:
+        pass
+    await update.effective_chat.send_message(
+        "👑 <b>Admin Panel</b>\n\nCancelled. What would you like to do?",
+        parse_mode=ParseMode.HTML,
+        reply_markup=admin_main_keyboard(),
+    )
